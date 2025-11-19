@@ -1,6 +1,8 @@
 use thiserror::Error;
 use zip::result::ZipError;
 use quick_xml::Error as XmlError;
+use quick_xml::de::DeError;
+use quick_xml::se::SeError;
 use quick_xml::events::attributes::AttrError;
 use quick_xml::encoding::EncodingError;
 use std::string::FromUtf8Error;
@@ -16,6 +18,12 @@ pub enum OfficeError {
 
     #[error("XML error: {0}")]
     Xml(#[from] XmlError),
+
+    #[error("XML deserialization error: {0}")]
+    XmlDeserialization(#[from] DeError),
+
+    #[error("XML serialization error: {0}")]
+    XmlSerialization(#[from] SeError),
 
     #[error("XML attribute error: {0}")]
     Attribute(#[from] AttrError),

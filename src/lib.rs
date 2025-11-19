@@ -1,5 +1,6 @@
 pub mod error;
 pub mod common;
+pub mod docprops;
 
 #[cfg(feature = "docx")]
 pub mod docx;
