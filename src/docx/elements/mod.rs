@@ -16,10 +16,13 @@ pub use table::{Table, TableCell, TableRow};
 
 /// 文档主体内容枚举，表示文档主体中可能包含的元素类型
 #[derive(Debug, Serialize)]
+#[serde(rename_all = "kebab-case")]
 pub enum BodyContent {
     /// 段落
+    #[serde(rename = "w:p")]
     Paragraph(Paragraph),
     /// 表格
+    #[serde(rename = "w:tbl")]
     Table(Table),
 }
 

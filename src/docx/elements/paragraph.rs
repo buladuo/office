@@ -14,7 +14,7 @@ use super::run::Run;
 
 /// 段落内容枚举，表示段落中可能包含的内容类型
 #[derive(Debug, Serialize)]
-#[serde(rename_all = "camelCase")]
+#[serde(rename_all = "kebab-case")]
 pub enum ParagraphContent {
     /// 文本运行
     #[serde(rename = "w:r")]
@@ -44,7 +44,7 @@ pub struct Paragraph {
     #[serde(rename = "w:pPr", skip_serializing_if = "Option::is_none")]
     pub properties: Option<ParagraphProperties>,
     /// 段落内容列表
-    #[serde(rename = "$value")]
+    #[serde(rename = "$content")]
     pub content: Vec<ParagraphContent>,
 }
 

@@ -8,7 +8,7 @@ use crate::error::Result;
 use super::elements::{BodyContent, Paragraph, Table};
 
 /// DOCX文档结构体，表示整个文档
-#[derive(Debug, Default, Serialize)]
+#[derive(Debug, Serialize)]
 #[serde(rename = "w:document")]
 pub struct Document {
     /// 文档主体内容
@@ -23,23 +23,38 @@ pub struct Document {
 }
 
 /// 文档主体结构体，包含文档的主要内容
-#[derive(Debug, Default, Serialize)]
+#[derive(Debug, Serialize)]
 pub struct Body {
     /// 主体内容，可以是段落或表格等
-    #[serde(rename = "$value")]
+    #[serde(rename = "value")]
     pub content: Vec<BodyContent>,
 }
 
 impl Document {
-    /// 创建默认的Document实例
-    pub fn default() -> Self {
+    pub fn new() -> Self {
         Document {
             body: Body::default(),
             xmlns_w: "http://schemas.openxmlformats.org/wordprocessingml/2006/main".to_string(),
             xmlns_r: "http://schemas.openxmlformats.org/officeDocument/2006/relationships".to_string(),
         }
     }
-    
+}
+
+impl Default for Document {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl Default for Body {
+    fn default() -> Self {
+        Body {
+            content: Vec::new(),
+        }
+    }
+}
+
+impl Document {
     /// 从XML内容解析Document
     /// 
     /// # 参数

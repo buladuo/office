@@ -1,6 +1,8 @@
 use office::docx::elements::{Paragraph, Run, RunContent};
 use office::docx::properties::{ParagraphProperties, RunProperties};
 use office::docx::Docx;
+use office::docx::document::{Document, Body};
+use office::docx::elements::BodyContent;
 use office::docprops::{AppProps, CoreProps};
 use office::common::relations::Relationships;
 use std::path::Path;
@@ -43,18 +45,19 @@ fn main() {
         "fontTable.xml".to_string(),
     );
     docx.relationships = Some(Relationships::new(doc_rels_map));
-
+    
+    // Create document with proper content
     let para = Paragraph {
         properties: Some(ParagraphProperties::default()),
         content: vec![Run {
             properties: Some(RunProperties::default()),
             content: vec![RunContent::Text("Hello, world!".to_string())],
             ..Default::default()
-        }
-        .into()],
-        ..Default::default()
+        }.into()],
     };
-    docx.document.body.content.push(para.into());
+    
+    docx.document = Document::default();
+    docx.document.body.content.push(BodyContent::Paragraph(para));
 
     let path = Path::new("test_write.docx");
     if let Err(e) = docx.save(path) {
